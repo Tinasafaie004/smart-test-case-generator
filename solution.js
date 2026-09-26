@@ -29,7 +29,7 @@ function solution(a){
         }
     }
 
-    return longest_sequence;
+    return longest_sequence.length;
 }
 
 module.exports=solution;  //make the function importable
