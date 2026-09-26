@@ -1,4 +1,4 @@
-from generator import direction_change, multi_direction_change
+from generator import multi_direction_change
 import json
 import subprocess
 from pathlib import Path
@@ -33,27 +33,16 @@ longest_run_in_middle_plan = {
     "reason": "Checks whether the longest run appears in the middle"
 }
 
-cases=[
-    direction_change(ascending_to_descending_plan["start"], ascending_to_descending_plan["lengths"][0], ascending_to_descending_plan["lengths"][1], ascending_to_descending_plan["first_direction"]),
-    direction_change(descending_to_ascending_plan["start"], descending_to_ascending_plan["lengths"][0], descending_to_ascending_plan["lengths"][1], descending_to_ascending_plan["first_direction"]),
-    multi_direction_change(longest_run_at_end_plan["start"], longest_run_at_end_plan["first_direction"], longest_run_at_end_plan["lengths"]),
-    multi_direction_change(longest_run_in_middle_plan["start"], longest_run_in_middle_plan["first_direction"], longest_run_in_middle_plan["lengths"])
+plans=[
+    ascending_to_descending_plan,
+    descending_to_ascending_plan,
+    longest_run_at_end_plan,
+    longest_run_in_middle_plan
 ]
 
-expected=[
-    # [4,5,6,7],
-    # [7,6,5,4],
-    # [4,5,6,7,8,9,10],
-    # [8,9,10,11]
-
-    #to make this pattern easier: --> I'm gonna return the length of the longest  series 
-    max(ascending_to_descending_plan["lengths"]),
-    max(descending_to_ascending_plan["lengths"]),
-    max(longest_run_at_end_plan["lengths"]),
-    max(longest_run_in_middle_plan["lengths"])
-]
-
-for case, expected_result in zip(cases,expected):   #.zip pairs them
+#for case, expected_result in zip(cases,expected):   #.zip pairs them
+for plan in plans:
+    case=multi_direction_change(plan["start"], plan["first_direction"],plan["lengths"])    
     case_as_text=json.dumps(case)  #turns a python array into text
 
     result=subprocess.run(
@@ -63,9 +52,11 @@ for case, expected_result in zip(cases,expected):   #.zip pairs them
         check=True  #raises errors instead of continuing 
     )
     actual=json.loads(result.stdout) #this converts the console.log from run_solution back to python array
+    expected_result=max(plan["lengths"])
     if(actual==expected_result):
         print("PASS", case)
     else:
         print("FAIL", case) #puts space between them by deafult
     print("Expected:", expected_result)
-    print("Actual:", actual)    
+    print("Actual:", actual)  
+    print("Reason",plan["reason"])  
