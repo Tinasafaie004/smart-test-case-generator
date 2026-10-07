@@ -42,7 +42,7 @@ plans=[
 
 #for case, expected_result in zip(cases,expected):   #.zip pairs them
 for plan in plans:
-    case=multi_direction_change(plan["start"], plan["first_direction"],plan["lengths"])    
+    case,expected_result=multi_direction_change(plan["start"], plan["first_direction"],plan["lengths"])    
     case_as_text=json.dumps(case)  #turns a python array into text
 
     result=subprocess.run(
@@ -52,11 +52,9 @@ for plan in plans:
         check=True  #raises errors instead of continuing 
     )
     actual=json.loads(result.stdout) #this converts the console.log from run_solution back to python array
-    expected_result=max(plan["lengths"])
     if(actual==expected_result):
         print("PASS", case)
     else:
         print("FAIL", case) #puts space between them by deafult
-    print("Expected:", expected_result)
     print("Actual:", actual)  
     print("Reason",plan["reason"])  

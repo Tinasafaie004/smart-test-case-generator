@@ -29,6 +29,7 @@ def direction_change(start,first_length, sencond_length, peak_direction):
 #up down up down
 def multi_direction_change(start, first_direction,lengths):
     final_res=[start]
+    longest_run=[]
     beginning=start
     current_direction=first_direction
     for length in lengths:
@@ -40,10 +41,15 @@ def multi_direction_change(start, first_direction,lengths):
             res= descending(beginning,length)
             current_direction="up"
 
+        if len(longest_run)==0: longest_run=res
+        else:
+            if len(res)>len(longest_run):
+                longest_run=res
+
         final_res.extend(res[1:])
 
         beginning=res[-1]
-    return final_res
+    return final_res, longest_run
 
 #small test
 # test_lengths=[2,5,3,2]
