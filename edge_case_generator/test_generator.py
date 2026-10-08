@@ -1,4 +1,3 @@
-from generator import multi_direction_change
 import json
 import subprocess
 from pathlib import Path
@@ -45,7 +44,8 @@ with open(plans_path,"r") as file:
     plans=json.load(file)
 #for case, expected_result in zip(cases,expected):   #.zip pairs them
 for plan in plans:
-    case,expected_result=multi_direction_change(plan["start"], plan["first_direction"],plan["lengths"])    
+    case=plan["case"]
+    expected_result=plan["expected"]
     case_as_text=json.dumps(case)  #turns a python array into text
 
     result=subprocess.run(
@@ -59,9 +59,11 @@ for plan in plans:
         print("PASS", case)
     else:
         print("FAIL", case) #puts space between them by deafult
+
+    print("This test case would test:",plan["reason"])
     print("Expected:", expected_result)
     print("Actual:", actual)  
-    print("Reason:",plan["reason"])
+    
 
 # print("Input tokens:",tokens["input_tokens"])
 # print("Output tokens:",tokens["output_tokens"])

@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from typing import Literal
 import json
 from pathlib import Path
+from generator import multi_direction_change
 
 class TestPlan(BaseModel):
     start:int
@@ -71,8 +72,18 @@ def save_plans(plans):
     plan_dictionaries=[]
 
     for plan in plans:
-        plan_dictionaries.append(plan.model_dump()) #turns TestPlan object as python dictionary
+        plan_dictionary=plan.model_dump() #turns TestPlan object as python dictionary
+        case,expected =multi_direction_change(
+            plan.start,
+            plan.first_direction,
+            plan.lengths
+        )
 
+        plan_dictionary["case"]=case
+        plan_dictionary["expected"]=expected
+
+        plan_dictionaries.append(plan_dictionary) 
+        
     with open(plans_path,"w") as file:
         json.dump(plan_dictionaries,file,indent=2) #turns python data inot file
 
