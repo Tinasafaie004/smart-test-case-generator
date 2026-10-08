@@ -1,0 +1,41 @@
+[
+  {
+    "start": 10,
+    "first_direction": "up",
+    "lengths": [
+      8,
+      3
+    ],
+    "reason": "Two alternating runs: the first run is up with length 8, followed by a down run of length 3; the longest run is first."
+  },
+  {
+    "start": 20,
+    "first_direction": "down",
+    "lengths": [
+      3,
+      8,
+      4
+    ],
+    "reason": "Three alternating runs: down for length 3, up for length 8, then down for length 4; the longest run is in the middle."
+  },
+  {
+    "start": 5,
+    "first_direction": "up",
+    "lengths": [
+      2,
+      4,
+      8
+    ],
+    "reason": "Three alternating runs: up for length 2, down for length 4, then up for length 8; the longest run is last."
+  },
+  {
+    "start": 30,
+    "first_direction": "down",
+    "lengths": [
+      6,
+      3,
+      6
+    ],
+    "reason": "Three alternating runs: down for length 6, up for length 3, then down for length 6; the first and last runs tie for longest, testing whether the first wins."
+  }
+]
