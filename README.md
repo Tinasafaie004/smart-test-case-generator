@@ -29,6 +29,9 @@ Generating plans and running tests are separate steps, so I can debug against th
 ```text
 longest_consecuttive_series/
 ├── README.md
+├── app.py                          # Streamlit live demo
+├── requirements.txt                # Python packages for the demo
+├── packages.txt                    # System packages for Streamlit Cloud (Node.js)
 ├── solution.js                     # JavaScript solution under test
 └── edge_case_generator/
     ├── ai_plan_generator.py         # Requests structured plans and saves cases
@@ -61,6 +64,32 @@ Expected output:
 ```json
 [1,2,3,4]
 ```
+
+## Live demo
+
+`app.py` is a Streamlit page with three tabs:
+
+- **AI test plans:** runs `solution.js` against the saved plans and shows `PASS` or `FAIL` for each.
+- **Build your own case:** enter a start, a first direction and run lengths; Python builds the array and expected run, then the JavaScript solution is checked against it.
+- **Try any array:** paste any array of whole numbers and see what the solution returns.
+
+The demo only reads `generated_plans.json`, so it makes no OpenAI requests and needs no API key.
+
+Run it locally:
+
+```powershell
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -r requirements.txt
+.venv\Scripts\python.exe -m streamlit run app.py
+```
+
+Deploy it on Streamlit Community Cloud:
+
+1. Commit and push `app.py`, `requirements.txt` and `packages.txt` to GitHub.
+2. Sign in at [share.streamlit.io](https://share.streamlit.io) with GitHub and choose **Create app**.
+3. Pick the `smart-test-case-generator` repository, branch `main`, and main file `app.py`, then deploy.
+
+`packages.txt` installs Node.js on the server, which the demo needs to run the JavaScript solution.
 
 ## Generate new AI test plans
 
